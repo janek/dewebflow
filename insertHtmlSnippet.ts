@@ -30,7 +30,6 @@ const insertHtmlSnippet = async (
       $("head").append(insertedHtml);
       break;
     case "replacingAnotherElement":
-      console.log("HEY");
       // The code in webflow needs to have an attribute named "data-custom-code-id" with the value equal to the name of the mockElementIdentifier
       $(`[${mockElementAttributeName}="${mockElementIdentifier}"]`).replaceWith(
         insertedHtml
