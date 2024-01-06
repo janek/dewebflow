@@ -1,10 +1,10 @@
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 
 const getAllSubpages = async (url, depth = 4) => {
-    const baseUrl = url;
-    const urls = await getSubpagesForUrl(url, 0, depth, baseUrl);
-    return urls;
-}; 
+  const baseUrl = url;
+  const urls = await getSubpagesForUrl(url, 0, depth, baseUrl);
+  return urls;
+};
 
 const getSubpagesForUrl = async (
   url,
@@ -29,7 +29,7 @@ const getSubpagesForUrl = async (
     return [];
   }
   const $ = cheerio.load(html);
-  const urls = $('a')
+  const urls = $("a")
     .map((i, el) => $(el).attr("href"))
     .get();
   const uniqueUrls = [...new Set(urls)];

@@ -18,7 +18,7 @@ You're limited to things the Webflow editor allows you to do for free (e.g. 50 i
 
 
 ### Subpages
-For paid websites, webflow creates a sitemap automatically. We can't make use of that here, so we instead crawl to find all internal links, starting recursively at the base URL. This means that we will only detect subpages that are linked somewhere On the page. This will be ok for most cases, but sometimes you might have subpages that are not linked anywhere on your website (but are linked from other websites or are sent as links to people). As a workaround to detect those, you can add hidden link elements that "lead" to them. 
+For hosted (paid) websites, Webflow creates a sitemap automatically. We can't make use of that here, so instead we crawl to find all internal links, starting recursively at the base URL. This means that we will only detect subpages that are linked somewhere. This will be ok for most cases. If you have subpages that are not linked to from your website, you can add hidden link elements that lead to them - as a workaround. 
 
 The crawler also won't detect links generated from JS, or any other links that are not `<a href=`s.
 
