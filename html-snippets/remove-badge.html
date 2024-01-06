@@ -1,3 +1,26 @@
 <script>
-    $('.w-webflow-badge').remove();
+  $(document).ready(function () {
+    
+    // Function to be called when mutations are observed
+    const onMutation = function (mutationsList, observer) {
+      console.log(`mutationsList: ${mutationsList}`);
+      for (let mutation of mutationsList) {
+        if (mutation.type === "childList") {
+          // Check if the added nodes contain the element you're looking for
+          mutation.addedNodes.forEach((node) => {
+            if (node.classList && node.classList.contains("w-webflow-badge")) {
+              node.remove(); // Remove the element
+              observer.disconnect(); // Stop observing
+            }
+          });
+        }
+      }
+    };
+
+    const observer = new MutationObserver(onMutation);
+    const config = { attributes: false, childList: true, subtree: true };
+    const targetNode = document.body; 
+    observer.observe(targetNode, config);
+    
+  });
 </script>
