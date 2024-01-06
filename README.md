@@ -1,9 +1,9 @@
 Download and rehost a Webflow website to avoid paying for it.
 
 ### Usage guidelines
-- Webflow is a great tool, consider paying for it if you can. Consider if your project is a bi/small, commercial/non-commercial, and what country it's based in
-- Webflow has a (paid) export feature, depending on your case it might be easier for you to just use that
+- Webflow is a great tool, before skipping payment consider if you should pay. For example, if your project is a big or small, commercial or non-commercial, and what country it's based in
 - This project has limitations, so it might not work for your case
+- Webflow has a (paid) export feature, depending on your case it might be easier for you to just use that
 
 ### Limitations
 
