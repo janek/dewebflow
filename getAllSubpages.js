@@ -13,7 +13,6 @@ const getSubpagesForUrl = async (
   baseUrl,
   visited = new Set()
 ) => {
-  console.log(url);
   // Check for depth limit and circular references
   if (currentDepth > depth || visited.has(url)) {
     return [];

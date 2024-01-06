@@ -2,14 +2,17 @@ import * as prettier from "prettier";
 import getAllSubpages from "./getAllSubpages.js";
 
 const baseUrl = "https://untested.webflow.io";
-const subpages = await getAllSubpages(baseUrl);
-console.log("subpages: ", subpages);
+const subpageUrls = await getAllSubpages(baseUrl);
 
-for (const subpage of subpages) {
-  const response = await fetch(subpage);
-  const html = await response.text();
-  const prettierHtml = await prettier.format(html, { parser: "html" });
-  console.log(prettierHtml);
+const saveSubpage = async (url, html) => {
+  const fileName = url === baseUrl ? "index.html" : url.replace(baseUrl, ".").concat(".html");
+  await Bun.write(fileName, html);
 }
 
+for (const url of subpageUrls) {
+  const response = await fetch(url);
+  const html = await response.text();
+  const prettierHtml = await prettier.format(html, { parser: "html" }); 
+  saveSubpage(url, prettierHtml);
+}
 
