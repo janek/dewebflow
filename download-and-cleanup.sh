@@ -10,4 +10,4 @@ prettier -w *.html
 # sed -i "" -e "/<meta content=\"Webflow\"/d" index.html
 # sed -i "" -e "/\/js\/webflow/d" index.html
 
-# prettier -w index.html
+prettier -w *.html
