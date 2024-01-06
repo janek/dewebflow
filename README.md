@@ -22,6 +22,9 @@ For hosted (paid) websites, Webflow creates a sitemap automatically. We can't ma
 
 The crawler also won't detect links generated from JS, or any other links that are not `<a href=`s.
 
+### TODO
+- review the code in `remove-badge.html`, since it's copied from ChatGPT without due diligence
+
 ### Outlook
 Mostly doing this to get it out of my head and because it's maybe a fun hack. Taking it far is not necessarily the right thing to do, but it could involve:
 - more complete export (CSS, JS, images) - note that this might be unnecessary, and keeping it light is great if it works
