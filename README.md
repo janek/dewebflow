@@ -9,12 +9,12 @@ Download and rehost a Webflow website to avoid paying for it.
 
 You're limited to things the Webflow editor allows you to do for free (e.g. 50 items in the CMS, no custom code editing). In addition to that, some things that work in webflow might break.
 
-- Subpages - mostly works, details below
-- Custom code - can be injected if using custom attributes, but depending on the use case could be tedious to work with
-- Interactions - seems to work, but under observation - feels like some things had been broken in the past
-- CMS - limited by Webflow's Starter (50 CMS items across 20 collections)
-- Translations - needs checking
-- Forms - using webflow forms won't work, they have to be replaced with something (e.g. Netlify Forms, web3forms)
+- **Subpages** - mostly works, details below
+- **Custom code** - can be injected if using custom attributes, but depending on the use case could be tedious to work with
+- **Interactions** - seems to work, but under observation - feels like some things had been broken in the past
+- **CMS** - limited by Webflow's Starter (50 CMS items across 20 collections)
+- **Translations** - needs checking
+- **Forms** - using webflow forms won't work, they have to be replaced with something (e.g. Netlify Forms, web3forms)
 
 
 ### Subpages
