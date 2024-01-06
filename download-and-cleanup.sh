@@ -7,7 +7,7 @@ prettier -w *.html
 
 # Deletions for webflow branding and fluff
 # sed -i "" -e "/data-wf/d" index.html
-# sed -i "" -e "/<meta content=\"Webflow\"/d" index.html
+sed -i "" -e "/<meta content=\"Webflow\"/d" index.html
 # sed -i "" -e "/\/js\/webflow/d" index.html
 
 prettier -w *.html
