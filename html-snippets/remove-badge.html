@@ -1,6 +1,5 @@
 <script>
   $(document).ready(function () {
-    
     // Function to be called when mutations are observed
     const onMutation = function (mutationsList, observer) {
       console.log(`mutationsList: ${mutationsList}`);
@@ -21,6 +20,5 @@
     const config = { attributes: false, childList: true, subtree: true };
     const targetNode = document.body; 
     observer.observe(targetNode, config);
-    
   });
 </script>
