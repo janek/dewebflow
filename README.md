@@ -1,12 +1,26 @@
-Download and rehost a Webflow website to avoid paying for it.
+Download and rehost a Webflow website to avoid paying for Webflow.
+
+## Installation
+- Make sure you have `bun` >= 1.0.22 installed, if needed install with `curl -fsSL https://bun.sh/install | bash`
+- Clone this repository and run `bun run install`. This will install `unwebflow` as a binary (and copy it to `~/bin/`)
+- Make sure `~/bin` is in your `$PATH`
+
+
+## Usage
+- Create a GitHub repository for the webiste you want to rehost
+- Connect your deployment to the repository - e.g. Netlify or Vercel
+- Clone locally and enter the directory with the repo
+- Run `unwebflow`
+- This will download your website from webflow to the directory you're in. It will then commit and push to GitHub, which in turn should deploy your site where you want it
+
 
 ## Should you use this?
 - Webflow is a great tool, before skipping payment consider if you should pay. For example, if your project is a big or small, commercial or non-commercial, and what country it's based in
 - This project has limitations, so it might not work for your case
 - Webflow has a (paid) export feature, depending on your case it might be easier for you to just use that
 
-## Limitations
 
+## Limitations
 You're limited to things the Webflow editor allows you to do for free (e.g. 50 items in the CMS, no custom code editing). In addition to that, some things that work in webflow might break.
 
 - **Subpages** - mostly works, details below
@@ -32,10 +46,12 @@ Currently limited to what Webflow allows in their free ("Starter") plan. It's po
 
 ### TODO
 - review the code in `remove-badge.html`, since it's copied from ChatGPT without due diligence and uses unfamiliar things (mutation observers)
+- also `getAllSubpages.js` is a little brittle
+- reorganizing code into more files should also make things cleaner
 
 ### Outlook
 Mostly doing this to get it out of my head and because it's maybe a fun hack. Taking it far is not necessarily the right thing to do, but it could involve:
-- more "complete" export (CSS, JS, images) - note that this might be unnecessary, and keeping it light is great if it works
-- nice CLI interface (as opposed to a set of scripts)
+- ~~more "complete" export (CSS, JS, images) - note that this might be unnecessary, and keeping it light is great if it works~~
+- ~~nice CLI interface (as opposed to a set of scripts)~~
 - invoking in a cloud function
 - browser extension to publish from webflow directly
