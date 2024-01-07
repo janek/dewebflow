@@ -2,14 +2,14 @@ Download and rehost a Webflow website to avoid paying for Webflow.
 
 ## Installation
 - Make sure you have `bun` >= 1.0.22 installed, if needed install with `curl -fsSL https://bun.sh/install | bash`
-- Clone this repository and run `bun run install`. This will install `unwebflow` as a binary (and copy it to `~/bin/`)
-- Make sure `~/bin` is in your `$PATH`
+- Clone this repository and run `bun run install`. This will install `unwebflow` as a binary (by copying it to `~/bin/`)
+- Make sure `~/bin` is in your `$PATH` and the tool was installed - run `dewebflow` from any directory and see if it works
 
 
 ## Usage
 - Create a GitHub repository for the webiste you want to rehost
 - Connect your deployment to the repository - e.g. Netlify or Vercel
-- Clone locally and enter the directory with the repo
+- Clone locally and enter the directory with the repo. Make sure you're able to commit and push.
 - Run `unwebflow`
 - This will download your website from webflow to the directory you're in. It will then commit and push to GitHub, which in turn should deploy your site where you want it
 
