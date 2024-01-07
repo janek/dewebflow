@@ -43,8 +43,8 @@ const getSubpagesForUrl = async (
         return null;
       }
     })
-    .filter((url) => url.startsWith("/") || url.startsWith(baseUrl));
-
+    .filter((url) => 
+      ((url.startsWith("/") || url.startsWith(baseUrl)) && !url.startsWith("#") && !url.startsWith(baseUrl + "/#")));
   // Recursive fetching of subpages
   const subUrls = await Promise.all(
     fullUrls.map((subUrl) =>
