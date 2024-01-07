@@ -43,16 +43,12 @@ const saveSubpage = async (url: string, html: string) => {
   await Bun.write(subdirectory + "/" + fileName, prettierHtml);
 }
 
-const insertBadgeHideScript2 = async (html: string) => {
-  const badgeHideScriptPath = "html-snippets/remove-badge.html";
-  const htmlWithBadgeHideScript = await insertHtmlFromFile(
-    html,
-    "endOfBody",
-    badgeHideScriptPath
-  );
-  return htmlWithBadgeHideScript;
-}
-
+// TODO: This is tested as proof of concept, but needs extra work to be functional when ran from standalone binary
+// More specifically, documented first and then included in script flow. 
+// It could potentially work as follows:
+// - Special name for "data-custom-code-id" attribute is already hardcoded
+// - Assume the name of the html files equals to the value of the data-custom-code-id attribute
+// - Run for the entire folder of html-snippets
 const insertCustomHtmlSnippet = async (html: string) => {
   const customHtmlSnippetPath = "html-snippets/test-custom-code.html";
   const htmlWithCustomHtmlSnippet = await insertHtmlFromFile(
@@ -69,8 +65,7 @@ for (const url of subpageUrls) {
   const response = await fetch(url);
   let html: string = await response.text();
   html = await insertBadgeHideScript(html);
-  // html = await insertBadgeHideScript2(html);
-  html = await insertCustomHtmlSnippet(html);
+  // html = await insertCustomHtmlSnippet(html);
   saveSubpage(url, html);
 }
 
