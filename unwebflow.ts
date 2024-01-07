@@ -62,7 +62,7 @@ if (!isGitRepo) {
 const subpageUrls: string[] = await getAllSubpages(baseUrl);
 
 const saveSubpage = async (url: string, html: string) => {
-  const subdirectory = "output";
+  const subdirectory = ".";
   const prettierHtml = await prettier.format(html, { parser: "html" }); 
   const fileName: string = url === baseUrl ? "index.html" : url.replace(baseUrl, ".").concat(".html");
   await Bun.write(subdirectory + "/" + fileName, prettierHtml);
