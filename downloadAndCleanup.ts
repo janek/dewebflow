@@ -1,6 +1,6 @@
 import * as prettier from "prettier";
 import getAllSubpages from "./getAllSubpages.js";
-import insertHtmlSnippet from "./insertHtmlSnippet.ts";
+import { insertHtmlFromFile, insertBadgeHideScript }  from "./insertHtmlSnippets.ts";
 
 
 const prompt = "What's the URL for your free Webflow site? (e.g. https://something.webflow.io)" + "\n";
@@ -43,15 +43,19 @@ const saveSubpage = async (url: string, html: string) => {
   await Bun.write(subdirectory + "/" + fileName, prettierHtml);
 }
 
-const insertBadgeHideScript = async (html: string) => {
+const insertBadgeHideScript2 = async (html: string) => {
   const badgeHideScriptPath = "html-snippets/remove-badge.html";
-  const htmlWithBadgeHideScript = await insertHtmlSnippet(html, "endOfBody", badgeHideScriptPath );
+  const htmlWithBadgeHideScript = await insertHtmlFromFile(
+    html,
+    "endOfBody",
+    badgeHideScriptPath
+  );
   return htmlWithBadgeHideScript;
 }
 
 const insertCustomHtmlSnippet = async (html: string) => {
   const customHtmlSnippetPath = "html-snippets/test-custom-code.html";
-  const htmlWithCustomHtmlSnippet = await insertHtmlSnippet(
+  const htmlWithCustomHtmlSnippet = await insertHtmlFromFile(
     html,
     "replacingAnotherElement",
     customHtmlSnippetPath,
@@ -65,6 +69,7 @@ for (const url of subpageUrls) {
   const response = await fetch(url);
   let html: string = await response.text();
   html = await insertBadgeHideScript(html);
+  // html = await insertBadgeHideScript2(html);
   html = await insertCustomHtmlSnippet(html);
   saveSubpage(url, html);
 }
