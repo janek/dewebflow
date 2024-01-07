@@ -94,4 +94,9 @@ for (const url of subpageUrls) {
   saveSubpage(url, html);
 }
 
-console.log("Done!");
+// Perform the automatic deployment
+console.log("Pushing to GitHub...");
+const command = "git add .; git commit -m 'Automatic deployment'; git push origin main";
+const res = await Bun.spawn(["/bin/sh", "-c", command]);
+
+console.log("Done! Check your deployment to see the changes.");
