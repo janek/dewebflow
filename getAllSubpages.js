@@ -31,9 +31,10 @@ const getSubpagesForUrl = async (
   const $ = cheerio.load(html);
   const urls = $("a")
     .map((i, el) => $(el).attr("href"))
-    .get();
+    .get()
+    .filter((url) => !url.startsWith("#"));
   const uniqueUrls = [...new Set(urls)];
-
+  
   // Resolve relative URLs and filter out invalid URLs
   const fullUrls = uniqueUrls
     .map((relativeUrl) => {
