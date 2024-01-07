@@ -2,7 +2,31 @@ import * as prettier from "prettier";
 import getAllSubpages from "./getAllSubpages.js";
 import insertHtmlSnippet from "./insertHtmlSnippet.ts";
 
-const baseUrl: string = "https://turbulence.berlin";
+
+const prompt = "What's the URL for your free Webflow site? (e.g. https://something.webflow.io)" + "\n";
+process.stdout.write(prompt);
+
+let baseUrl: string = "";
+for await (const line of console) {
+  try {
+    const response = await fetch(line);
+    if (!response.ok) {
+      process.stdout.write(line + " seems like an invalid URL. Please try again. Make sure it uses https://." + "\n");
+    } else {
+      baseUrl = line;
+      const html = await response.text();
+      if (!html.includes(`<meta content="Webflow"`)) {
+        process.stdout.write(line + " doesn't seem to be a Webflow site, please try another URL:" + "\n");
+        continue;
+      }
+      process.stdout.write("Processing " + line + "\n");
+      break;
+    }
+  } catch (error) {
+    process.stdout.write(line + " seems like an invalid URL. Please try again. Make sure it uses https://." + "\n");
+  }
+}
+
 const subpageUrls: string[] = await getAllSubpages(baseUrl);
 
 const saveSubpage = async (url: string, html: string) => {
@@ -29,6 +53,7 @@ const insertCustomHtmlSnippet = async (html: string) => {
   return htmlWithCustomHtmlSnippet;
 }
 
+// Download and process subpages
 for (const url of subpageUrls) {
   const response = await fetch(url);
   let html: string = await response.text();
@@ -37,3 +62,4 @@ for (const url of subpageUrls) {
   saveSubpage(url, html);
 }
 
+console.log("Done!");
