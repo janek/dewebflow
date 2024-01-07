@@ -13,7 +13,7 @@ for await (const line of console) {
     if (!response.ok) {
       process.stdout.write(line + " seems like an invalid URL. Please try again. Make sure it uses https://." + "\n");
     } else {
-      baseUrl = line;
+      baseUrl = line.trim();
       const html = await response.text();
       if (!html.includes(`<meta content="Webflow"`)) {
         process.stdout.write(line + " doesn't seem to be a Webflow site, please try another URL:" + "\n");
