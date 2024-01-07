@@ -32,9 +32,14 @@ const getSubpagesForUrl = async (
   const urls = $("a")
     .map((i, el) => $(el).attr("href"))
     .get()
-    .filter((url) => !url.startsWith("#"));
-  const uniqueUrls = [...new Set(urls)];
-  
+
+  console.log("urls", urls);
+  const filteredUrls = urls
+    .filter((url) => url.startsWith("/"));
+  console.log("filteredUrls", filteredUrls);
+  const uniqueUrls = [...new Set(filteredUrls)];
+  console.log("Unique URLs:", uniqueUrls);
+
   // Resolve relative URLs and filter out invalid URLs
   const fullUrls = uniqueUrls
     .map((relativeUrl) => {
@@ -44,8 +49,8 @@ const getSubpagesForUrl = async (
         return null;
       }
     })
-    .filter((url) => 
-      ((url.startsWith("/") || url.startsWith(baseUrl)) && !url.startsWith("#") && !url.startsWith(baseUrl + "/#")));
+  console.log("fullUrls", fullUrls);
+    // .filter((url) => (url.startsWith("/") || url.startsWith(baseUrl)));
   // Recursive fetching of subpages
   const subUrls = await Promise.all(
     fullUrls.map((subUrl) =>
@@ -53,7 +58,10 @@ const getSubpagesForUrl = async (
     )
   );
 
-  return [url, ...subUrls.flat()];
+  console.log("subUrls", subUrls);
+  const ret = [url, ...subUrls.flat()];
+  console.log("ret", ret);
+  return ret
 };
 
 export default getAllSubpages;
