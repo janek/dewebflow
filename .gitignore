@@ -144,3 +144,6 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node
 bun.lockb
 output
+
+# Local Netlify folder
+.netlify

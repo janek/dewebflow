@@ -2,7 +2,7 @@ import * as prettier from "prettier";
 import getAllSubpages from "./getAllSubpages.js";
 import insertHtmlSnippet from "./insertHtmlSnippet.ts";
 
-const baseUrl: string = "https://untested.webflow.io";
+const baseUrl: string = "https://turbulence.berlin";
 const subpageUrls: string[] = await getAllSubpages(baseUrl);
 
 const saveSubpage = async (url: string, html: string) => {

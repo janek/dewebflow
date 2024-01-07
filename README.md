@@ -10,11 +10,12 @@ Download and rehost a Webflow website to avoid paying for it.
 You're limited to things the Webflow editor allows you to do for free (e.g. 50 items in the CMS, no custom code editing). In addition to that, some things that work in webflow might break.
 
 - **Subpages** - mostly works, details below
-- **Custom code** - can be injected if using custom attributes, but depending on the use case could be tedious to work with
-- **Interactions** - seems to work, but under observation - feels like some things had been broken in the past
-- **CMS** - limited by Webflow's Starter (50 CMS items across 20 collections)
-- **Translations** - needs checking
-- **Forms** - using webflow forms won't work, they have to be replaced with something (e.g. Netlify Forms, web3forms)
+- **Custom code** - works, more information below
+- **CMS** - works, with limits set by Webflow's free plan (50 CMS items across 20 collections, etc.)
+- **Forms** - works, with limits set by Webflow's free plan (50 submissions/month)
+- **Interactions** - works
+- **Localization** - not tested, it was bit unclear whether Webflow offers a free preview of it or not
+- **Spline 3D objects** - works and has no watermark
 
 
 ### Subpages
@@ -22,8 +23,11 @@ For hosted (paid) websites, Webflow creates a sitemap automatically. We can't ma
 
 The crawler also won't detect links generated from JS, or any other links that are not `<a href=`s.
 
+### Custom code
+Custom code element added from Webflow will just work. In addition to that, you can write snippets of code to be injected in the re-publishing process. To do that, you have to add a mock element in Webflow that will get replaced.
+
 ### TODO
-- review the code in `remove-badge.html`, since it's copied from ChatGPT without due diligence
+- review the code in `remove-badge.html`, since it's copied from ChatGPT without due diligence and uses unfamiliar things (mutation observers)
 
 ### Outlook
 Mostly doing this to get it out of my head and because it's maybe a fun hack. Taking it far is not necessarily the right thing to do, but it could involve:
