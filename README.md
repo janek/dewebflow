@@ -23,8 +23,8 @@ Download and rehost a Webflow website to avoid paying for Webflow.
 ## Limitations
 You're limited to things the Webflow editor allows you to do for free (e.g. 50 items in the CMS, no custom code editing). In addition to that, some things that work in webflow might break.
 
-- **Subpages** - mostly works, details below
-- **Custom code** - works, more information below
+- **Subpages** - works, details below
+- **Custom code** - kind of works, details below
 - **CMS** - works, with limits set by Webflow's free plan (50 CMS items across 20 collections, etc.)
 - **Forms** - works, with limits set by Webflow's free plan (50 submissions/month). 
 - **Interactions** - works
@@ -39,7 +39,7 @@ For hosted (paid) websites, Webflow creates a sitemap automatically. We can't ma
 The crawler also won't detect links generated from JS, or any other links that are not `<a href=`s.
 
 ### Custom code
-Custom code element added from Webflow will just work. In addition to that, you can write snippets of code to be injected in the re-publishing process. To do that, you have to add a mock element in Webflow that will get replaced.
+You can write snippets of code to be injected in the re-publishing process. To do that, you have to add a mock element in Webflow that will get replaced. (This is a WIP/TODO)
 
 ### CMS and forms submission limts
 Currently limited to what Webflow allows in their free ("Starter") plan. It's possible to replace the CMS and forms with another service (like Netlify Forms and Netlify CMS), but not currently implemented (and potentially a bit complicated). See also Udesly.
