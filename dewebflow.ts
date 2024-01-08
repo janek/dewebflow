@@ -55,8 +55,7 @@ if (!baseUrl) {
 // Check if current folder is a github repo
 const isGitRepo = await Bun.file(".git/HEAD").exists();
 if (!isGitRepo) {
-  process.stdout.write("Github repository not found. Please run this from a directory that contains a repository that's connected to your deployment (e.g. Netlify or Vercel)" + "\n");
-  process.exit(1);
+  process.stdout.write("Github repository not found. Press anything to run without it, or Ctrl+C to exit." + "\n");
 }
 
 const subpageUrls: string[] = await getAllSubpages(baseUrl);
