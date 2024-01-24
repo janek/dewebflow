@@ -7,7 +7,7 @@
     "@types/bun": "^1.0.0"
   },
   "scripts": {
-    "install": "bun build unwebflow.ts --compile; mv unwebflow ~/bin/",
-    "test": "bun run unwebflow.ts https://untitled-10999.webflow.io/"
+    "install": "bun build dewebflow.ts --compile; mv dewebflow ~/bin/",
+    "test": "bun run dewebflow.ts https://untested.webflow.io"
   }
 }
