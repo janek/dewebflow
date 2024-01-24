@@ -65,6 +65,7 @@ if (!baseUrl) {
 }
 
 const subpageUrls: string[] = await getAllSubpages(baseUrl);
+console.log("Found " + subpageUrls.length + " subpages");
 
 const saveSubpage = async (url: string, html: string) => {
   const subdirectory = ".";
