@@ -8,6 +8,6 @@
   },
   "scripts": {
     "install": "bun build unwebflow.ts --compile; mv unwebflow ~/bin/",
-    "test": "bun run unwebflow.ts https://untested.webflow.io"
+    "test": "bun run unwebflow.ts https://untitled-10999.webflow.io/"
   }
 }
