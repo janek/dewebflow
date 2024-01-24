@@ -1,4 +1,9 @@
-Download and rehost a Webflow website to avoid paying for Webflow.
+Creative extension of the Webflow free tier
+
+## Should you use this?
+- Webflow is a great tool, before skipping payment consider if you should pay. For example, if your project is a big or small, commercial or non-commercial, and what country it's based in
+- This project has limitations, so it might not work for your case
+- Webflow has a (paid) export feature, depending on your case it might be easier for you to just use that
 
 ## Installation
 - Make sure you have `bun` >= 1.0.22 installed, if needed install with `curl -fsSL https://bun.sh/install | bash`
@@ -12,13 +17,6 @@ Download and rehost a Webflow website to avoid paying for Webflow.
 - Clone locally and enter the directory with the repo. Make sure you're able to commit and push.
 - Run `unwebflow`
 - This will download your website from webflow to the directory you're in. It will then commit and push to GitHub, which in turn should deploy your site where you want it
-
-
-## Should you use this?
-- Webflow is a great tool, before skipping payment consider if you should pay. For example, if your project is a big or small, commercial or non-commercial, and what country it's based in
-- This project has limitations, so it might not work for your case
-- Webflow has a (paid) export feature, depending on your case it might be easier for you to just use that
-
 
 ## Limitations
 You're limited to things the Webflow editor allows you to do for free (e.g. 50 items in the CMS, no custom code editing). In addition to that, some things that work in webflow might break.
