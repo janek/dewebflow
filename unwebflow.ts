@@ -70,7 +70,7 @@ console.log("Found " + subpageUrls.length + " subpages");
 const saveSubpage = async (url: string, html: string) => {
   const prettierHtml = await prettier.format(html, { parser: "html" });
   const fileName: string =
-    url === baseUrl ? "index.html" : url.replace(baseUrl!, ".").concat(".html");
+    url === baseUrl ? "index.html" : url.replace(baseUrl!, "").concat(".html");
   await Bun.write(fileName, prettierHtml);
 };
 
