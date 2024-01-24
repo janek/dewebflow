@@ -68,11 +68,10 @@ const subpageUrls: string[] = await getAllSubpages(baseUrl);
 console.log("Found " + subpageUrls.length + " subpages");
 
 const saveSubpage = async (url: string, html: string) => {
-  const subdirectory = ".";
   const prettierHtml = await prettier.format(html, { parser: "html" });
   const fileName: string =
-    url === baseUrl ? "index.html" : url.replace(baseUrl, ".").concat(".html");
-  await Bun.write(subdirectory + "/" + fileName, prettierHtml);
+    url === baseUrl ? "index.html" : url.replace(baseUrl!, ".").concat(".html");
+  await Bun.write(fileName, prettierHtml);
 };
 
 // TODO: This is tested as proof of concept, but needs extra work to be functional when ran from standalone binary
