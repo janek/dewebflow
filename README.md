@@ -2,7 +2,7 @@
 
 ## Should you use this?
 - Webflow is a great tool, before skipping payment consider if you should pay. For example, if your project is a big or small, commercial or non-commercial, and what country it's based in
-- This project has limitations, so it might not work for your case
+- This project has limitations (see below), so it might not work for your case
 - Webflow has a (paid) export feature, depending on your case it might be easier for you to just use that
 
 ## Installation
