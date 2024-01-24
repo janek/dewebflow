@@ -1,7 +1,20 @@
+import { $ } from "bun";
 import * as prettier from "prettier";
 import getAllSubpages from "./getAllSubpages.js";
-import { insertHtmlFromFile, insertBadgeHideScript }  from "./insertHtmlSnippets.ts";
+import {
+  insertHtmlFromFile,
+  insertBadgeHideScript,
+} from "./insertHtmlSnippets.ts";
 
+
+// Check if current folder is a github repo
+const isGitRepo = await Bun.file(".git/HEAD").exists();
+if (!isGitRepo) {
+  process.stdout.write(
+    "Git repository not found. The recommended flow is to create a repository connected to your deployment. Unwebflow will pull changes from your free Webflow site and push them to your repo. Press or Ctrl+C to exit (and create/move into a repository) or press anything else to run without a repository." +
+      "\n"
+  );
+}
 
 let baseUrl: string | undefined = undefined;
 const args = Bun.argv;
@@ -51,24 +64,18 @@ if (!baseUrl) {
   }
 }
 
-
-// Check if current folder is a github repo
-const isGitRepo = await Bun.file(".git/HEAD").exists();
-if (!isGitRepo) {
-  process.stdout.write("Github repository not found. Press anything to run without it, or Ctrl+C to exit." + "\n");
-}
-
 const subpageUrls: string[] = await getAllSubpages(baseUrl);
 
 const saveSubpage = async (url: string, html: string) => {
   const subdirectory = ".";
-  const prettierHtml = await prettier.format(html, { parser: "html" }); 
-  const fileName: string = url === baseUrl ? "index.html" : url.replace(baseUrl, ".").concat(".html");
+  const prettierHtml = await prettier.format(html, { parser: "html" });
+  const fileName: string =
+    url === baseUrl ? "index.html" : url.replace(baseUrl, ".").concat(".html");
   await Bun.write(subdirectory + "/" + fileName, prettierHtml);
-}
+};
 
 // TODO: This is tested as proof of concept, but needs extra work to be functional when ran from standalone binary
-// More specifically, documented first and then included in script flow. 
+// More specifically, documented first and then included in script flow.
 // It could potentially work as follows:
 // - Special name for "data-custom-code-id" attribute is already hardcoded
 // - Assume the name of the html files equals to the value of the data-custom-code-id attribute
@@ -82,7 +89,7 @@ const insertCustomHtmlSnippet = async (html: string) => {
     "test-custom-code"
   );
   return htmlWithCustomHtmlSnippet;
-}
+};
 
 // Download and process subpages
 for (const url of subpageUrls) {
@@ -95,7 +102,8 @@ for (const url of subpageUrls) {
 
 // Perform the automatic deployment
 console.log("Pushing to GitHub...");
-const command = "git add .; git commit -m 'Automatic deployment'; git push origin main";
+const command =
+  "git add .; git commit -m 'Automatic deployment'; git push origin main";
 const res = await Bun.spawn(["/bin/sh", "-c", command]);
 
 console.log("Done! Check your deployment to see the changes.");
