@@ -103,7 +103,7 @@ for (const url of subpageUrls) {
 // Perform the automatic deployment
 console.log("Pushing to GitHub...");
 const command =
-  "git add .; git commit -m 'Automatic deployment'; git push origin main";
+  "git add .; git commit -m 'Automatic deployment'; git push --set-upstream origin main";
 const res = await Bun.spawn(["/bin/sh", "-c", command]);
 
 console.log("Done! Check your deployment to see the changes.");
