@@ -1,7 +1,7 @@
 *unwebflow is a creative extension of the Webflow free tier*
 
 ## Should you use this?
-- Webflow is a great tool, before skipping payment consider if you should pay. For example, if your project is a big or small, commercial or non-commercial, and what country it's based in
+- Webflow is a great tool, before skipping payment consider if you should pay. For example: is your project is a big or small, commercial or non-commercial? What's the average income in the country it's based in?
 - This project has limitations (see below), so it might not work for your case
 - Webflow has a (paid) export feature, depending on your case it might be easier for you to just use that
 
