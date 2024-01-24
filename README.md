@@ -8,8 +8,7 @@
 ## Installation
 - Make sure you have `bun` >= 1.0.22 installed, if needed install with `curl -fsSL https://bun.sh/install | bash`
 - Clone this repository and run `bun run install`. This will install `unwebflow` as a binary (by copying it to `~/bin/`)
-- Make sure `~/bin` is in your `$PATH` and the tool was installed - run `dewebflow` from any directory and see if it works
-
+- Make sure `~/bin` is in your `$PATH` and the tool was installed - run `unwebflow` from any directory and see if it works
 
 ## Usage
 - Create a GitHub repository for the webiste you want to rehost
@@ -21,10 +20,10 @@
 ## Limitations
 You're limited to things the Webflow editor allows you to do for free (e.g. 50 items in the CMS, no custom code editing). In addition to that, some things that work in webflow might break.
 
-- **Subpages** - works, details below
+- **Subpages** - works, details below // XXX: limit of 2, use CMS as workaround
 - **Custom code** - kind of works, details below
 - **CMS** - works, with limits set by Webflow's free plan (50 CMS items across 20 collections, etc.)
-- **Forms** - works, with limits set by Webflow's free plan (50 submissions/month). 
+- **Forms** - you can use Webflow's forms directly, but it has a 50 submissions per month limit, and you won't get notifications about submissions
 - **Interactions** - works
 - **Localization** - not tested, becuase I couldn't find a free preview of it or not (even though it theoretically exists)
 - **Spline 3D objects** - works and has no watermark
@@ -41,6 +40,9 @@ You can write snippets of code to be injected in the re-publishing process. To d
 
 ### CMS and forms submission limts
 Currently limited to what Webflow allows in their free ("Starter") plan. It's possible to replace the CMS and forms with another service (like Netlify Forms and Netlify CMS), but not currently implemented (and potentially a bit complicated). See also Udesly.
+
+### Forms 
+Netlify forms?
 
 ### TODO
 - review the code in `remove-badge.html`, since it's copied from ChatGPT without due diligence and uses unfamiliar things (mutation observers)
