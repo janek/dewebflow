@@ -8,6 +8,6 @@
   },
   "scripts": {
     "install": "bun build dewebflow.ts --compile; mv dewebflow ~/bin/",
-    "test": "bun run dewebflow.ts https://untested.webflow.io"
+    "test": "read -p 'This will create and push a commit. Are you sure?' && bun run dewebflow.ts https://untested.webflow.io"
   }
 }
