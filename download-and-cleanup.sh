@@ -1,5 +1,5 @@
 #!/bin/bash
-BASE_URL="https://www.felicitasevalindner.com/"
+BASE_URL="https://untested.webflow.io"
 
 # Pull and prettify index.html
 wget -nv -O "index.html" $BASE_URL
