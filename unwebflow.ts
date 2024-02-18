@@ -1,5 +1,5 @@
 import { $ } from "bun";
-import * as prettier from "prettier";
+// import * as prettier from "prettier";
 import getAllSubpages from "./getAllSubpages.js";
 import {
   insertHtmlFromFile,
@@ -42,15 +42,15 @@ if (!baseUrl) {
         );
       } else {
         baseUrl = line.trim();
-        const html = await response.text();
-        if (!html.includes(`<meta content="Webflow"`)) {
-          process.stdout.write(
-            line +
-              " doesn't seem to be a Webflow site, please try another URL:" +
-              "\n"
-          );
-          continue;
-        }
+        // const html = await response.text();
+        // if (!html.includes(`<meta content="Webflow"`)) {
+        //   process.stdout.write(
+        //     line +
+        //       " doesn't seem to be a Webflow site, please try another URL:" +
+        //       "\n"
+        //   );
+        //   continue;
+        // }
         process.stdout.write("Processing " + line + "\n");
         break;
       }
@@ -68,10 +68,10 @@ const subpageUrls: string[] = await getAllSubpages(baseUrl);
 console.log("Found " + subpageUrls.length + " subpages");
 
 const saveSubpage = async (url: string, html: string) => {
-  const prettierHtml = await prettier.format(html, { parser: "html" });
+  // const prettierHtml = await prettier.format(html, { parser: "html" });
   const fileName: string =
     url === baseUrl ? "index.html" : url.replace(baseUrl!, "").concat(".html");
-  await Bun.write(fileName, prettierHtml);
+  await Bun.write(fileName, html);
 };
 
 // TODO: This is tested as proof of concept, but needs extra work to be functional when ran from standalone binary
@@ -80,22 +80,22 @@ const saveSubpage = async (url: string, html: string) => {
 // - Special name for "data-custom-code-id" attribute is already hardcoded
 // - Assume the name of the html files equals to the value of the data-custom-code-id attribute
 // - Run for the entire folder of html-snippets
-const insertCustomHtmlSnippet = async (html: string) => {
-  const customHtmlSnippetPath = "html-snippets/test-custom-code.html";
-  const htmlWithCustomHtmlSnippet = await insertHtmlFromFile(
-    html,
-    "replacingAnotherElement",
-    customHtmlSnippetPath,
-    "test-custom-code"
-  );
-  return htmlWithCustomHtmlSnippet;
-};
+// const insertCustomHtmlSnippet = async (html: string) => {
+//   const customHtmlSnippetPath = "html-snippets/test-custom-code.html";
+//   const htmlWithCustomHtmlSnippet = await insertHtmlFromFile(
+//     html,
+//     "replacingAnotherElement",
+//     customHtmlSnippetPath,
+//     "test-custom-code"
+//   );
+//   return htmlWithCustomHtmlSnippet;
+// };
 
 // Download and process subpages
 for (const url of subpageUrls) {
   const response = await fetch(url);
   let html: string = await response.text();
-  html = await insertBadgeHideScript(html);
+  // html = await insertBadgeHideScript(html);
   // html = await insertCustomHtmlSnippet(html);
   saveSubpage(url, html);
 }
