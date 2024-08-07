@@ -6,7 +6,6 @@ import {
   insertBadgeHideScript,
 } from "./insertHtmlSnippets.ts";
 
-
 // Check if current folder is a github repo
 const isGitRepo = await Bun.file(".git/HEAD").exists();
 if (!isGitRepo) {
@@ -17,11 +16,14 @@ if (!isGitRepo) {
 }
 
 let baseUrl: string | undefined = undefined;
+let shouldDeploy = false;
 const args = Bun.argv;
 for (const arg of args) {
   if (arg.includes("webflow.io")) {
     baseUrl = arg;
-    break;
+  }
+  if (arg === "--deploy" || arg === "-d") {
+    shouldDeploy = true;
   }
 }
 
@@ -93,10 +95,13 @@ for (const url of subpageUrls) {
   saveSubpage(url, html);
 }
 
-// Perform the automatic deployment
-console.log("Pushing to GitHub...");
-const command =
-  "git add .; git commit -m 'Automatic deployment'; git push --set-upstream origin main";
-const res = await Bun.spawn(["/bin/sh", "-c", command]);
-
-console.log("Done! Check your deployment to see the changes.");
+// Perform the automatic deployment if the flag is set
+if (shouldDeploy) {
+  console.log("Pushing to GitHub...");
+  const command =
+    "git add .; git commit -m 'Automatic deployment'; git push --set-upstream origin main";
+  const res = await Bun.spawn(["/bin/sh", "-c", command]);
+  console.log("Done! Check your deployment to see the changes.");
+} else {
+  console.log("Changes saved locally. Use --deploy or -d flag to automatically commit and push to GitHub.");
+}
