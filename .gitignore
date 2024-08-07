@@ -147,3 +147,4 @@ output
 
 # Local Netlify folder
 .netlify
+.aider*
