@@ -1,5 +1,7 @@
 import { $ } from "bun";
+import { mkdir } from "node:fs/promises";
 import * as prettier from "prettier";
+import * as path from "path";
 import getAllSubpages from "./getAllSubpages.js";
 import {
   insertHtmlFromFile,
@@ -16,11 +18,16 @@ if (!isGitRepo) {
 }
 
 let baseUrl: string | undefined = undefined;
+let destinationPath: string | undefined = undefined;
 let shouldDeploy = false;
 const args = Bun.argv;
 for (const arg of args) {
   if (arg.includes("webflow.io")) {
     baseUrl = arg;
+    const nextArg = args[args.indexOf(arg) + 1];
+    if (nextArg && !nextArg.startsWith("--")) {
+      destinationPath = nextArg;
+    }
   }
   if (arg === "--deploy" || arg === "-d") {
     shouldDeploy = true;
@@ -59,6 +66,14 @@ if (!baseUrl) {
   }
 }
 
+if (!destinationPath) {
+  const siteName = baseUrl!.replace("https://", "").split(".webflow.io")[0].replace(/\./g, "-");
+  destinationPath = path.join(process.cwd(), siteName);
+}
+
+
+await mkdir(destinationPath, { recursive: true });
+
 const subpageUrls: string[] = await getAllSubpages(baseUrl);
 console.log(`Found ${subpageUrls.length} subpages`);
 
@@ -66,7 +81,8 @@ const saveSubpage = async (url: string, html: string) => {
   const prettierHtml = await prettier.format(html, { parser: "html" });
   const fileName: string =
     url === baseUrl ? "index.html" : url.replace(baseUrl!, "").concat(".html");
-  await Bun.write(fileName, prettierHtml);
+  const filePath = path.join(destinationPath!, fileName);
+  await Bun.write(filePath, prettierHtml);
 };
 
 // TODO: This is tested as proof of concept, but needs extra work to be functional when ran from standalone binary
@@ -76,7 +92,7 @@ const saveSubpage = async (url: string, html: string) => {
 // - Assume the name of the html files equals to the value of the data-custom-code-id attribute
 // - Run for the entire folder of html-snippets
 const insertCustomHtmlSnippet = async (html: string) => {
-  const customHtmlSnippetPath = path.join(destinationDir, "html-snippets/test-custom-code.html");
+  const customHtmlSnippetPath = path.join(destinationPath!, "html-snippets/test-custom-code.html");
   const htmlWithCustomHtmlSnippet = await insertHtmlFromFile(
     html,
     "replacingAnotherElement",
@@ -99,9 +115,9 @@ for (const url of subpageUrls) {
 if (shouldDeploy) {
   console.log("Pushing to GitHub...");
   const command =
-    "git add .; git commit -m 'Automatic deployment'; git push --set-upstream origin main";
+    `cd ${destinationPath} && git add . && git commit -m 'Automatic deployment' && git push --set-upstream origin main`;
   const res = await Bun.spawn(["/bin/sh", "-c", command]);
   console.log("Done! Check your deployment to see the changes.");
 } else {
-  console.log("Changes saved locally. Use --deploy or -d flag to automatically commit and push to GitHub.");
+  console.log(`Changes saved in ${destinationPath}. Use --deploy or -d flag to automatically commit and push to GitHub.`);
 }
