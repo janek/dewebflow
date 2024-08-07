@@ -1,9 +1,9 @@
 *unwebflow is a creative extension of the Webflow free tier*
 
 ## Should you use this?
-- Webflow is a great tool, before skipping payment consider if you should pay. For example: is your project is a big or small, commercial or non-commercial? What's the average income in the country it's based in?
+- Webflow is a great tool, before skipping payment consider if you shouldn't actually just pay. For example: is your project is a big or small, commercial or non-commercial? What's the average income in the country it's based in?
 - This project has limitations (see below), so it might not work for your case
-- Webflow has a (paid) export feature, depending on your case it might be easier for you to just use that
+- Webflow has an export feature (paid), depending on your case it might be easier for you to just use that
 
 ## Installation
 - Make sure you have `bun` >= 1.0.22 installed, if needed install with `curl -fsSL https://bun.sh/install | bash`
