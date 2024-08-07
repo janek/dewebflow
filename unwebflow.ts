@@ -27,8 +27,7 @@ for (const arg of args) {
 
 if (!baseUrl) {
   const prompt =
-    "What's the URL for your free Webflow site? (e.g. https://something.webflow.io)" +
-    "\n";
+    "What's the URL for your free Webflow site? (e.g. https://something.webflow.io)\n";
   process.stdout.write(prompt);
 
   for await (const line of console) {
@@ -36,36 +35,30 @@ if (!baseUrl) {
       const response = await fetch(line);
       if (!response.ok) {
         process.stdout.write(
-          line +
-            " seems like an invalid URL. Please try again. Make sure it uses https://." +
-            "\n"
+          `${line} seems like an invalid URL. Please try again. Make sure it uses https://.\n`
         );
       } else {
         baseUrl = line.trim();
         const html = await response.text();
         if (!html.includes(`<meta content="Webflow"`)) {
           process.stdout.write(
-            line +
-              " doesn't seem to be a Webflow site, please try another URL:" +
-              "\n"
+            `${line} doesn't seem to be a Webflow site, please try another URL:\n`
           );
           continue;
         }
-        process.stdout.write("Processing " + line + "\n");
+        process.stdout.write(`Processing ${line}\n`);
         break;
       }
     } catch (error) {
       process.stdout.write(
-        line +
-          " seems like an invalid URL. Please try again. Make sure it uses https://." +
-          "\n"
+        `${line} seems like an invalid URL. Please try again. Make sure it uses https://.\n`
       );
     }
   }
 }
 
 const subpageUrls: string[] = await getAllSubpages(baseUrl);
-console.log("Found " + subpageUrls.length + " subpages");
+console.log(`Found ${subpageUrls.length} subpages`);
 
 const saveSubpage = async (url: string, html: string) => {
   const prettierHtml = await prettier.format(html, { parser: "html" });
@@ -81,7 +74,7 @@ const saveSubpage = async (url: string, html: string) => {
 // - Assume the name of the html files equals to the value of the data-custom-code-id attribute
 // - Run for the entire folder of html-snippets
 const insertCustomHtmlSnippet = async (html: string) => {
-  const customHtmlSnippetPath = "html-snippets/test-custom-code.html";
+  const customHtmlSnippetPath = path.join(destinationDir, "html-snippets/test-custom-code.html");
   const htmlWithCustomHtmlSnippet = await insertHtmlFromFile(
     html,
     "replacingAnotherElement",
