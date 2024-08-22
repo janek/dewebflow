@@ -34,6 +34,12 @@ for (const arg of args) {
   }
 }
 
+const printInvalidUrlMessage = (line: string) => {
+  process.stdout.write(
+    `${line} seems like an invalid URL. Please try again. Make sure it uses https://.\n`
+  );
+};
+
 if (!baseUrl) {
   const prompt =
     "What's the URL for your free Webflow site? (e.g. https://something.webflow.io)\n";
@@ -43,9 +49,7 @@ if (!baseUrl) {
     try {
       const response = await fetch(line);
       if (!response.ok) {
-        process.stdout.write(
-          `${line} seems like an invalid URL. Please try again. Make sure it uses https://.\n`
-        );
+        printInvalidUrlMessage(line);
       } else {
         baseUrl = line.trim();
         const html = await response.text();
@@ -59,9 +63,7 @@ if (!baseUrl) {
         break;
       }
     } catch (error) {
-      process.stdout.write(
-        `${line} seems like an invalid URL. Please try again. Make sure it uses https://.\n`
-      );
+      printInvalidUrlMessage(line);
     }
   }
 }
