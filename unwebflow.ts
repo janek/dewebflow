@@ -27,8 +27,8 @@ Press Ctrl+C to exit (and create/move into a repository) or Enter to run without
 }
 
 let baseUrl: string | undefined = undefined;
-
 let shouldDeploy = false;
+
 const args = Bun.argv;
 for (const arg of args) {
   if (arg.includes("webflow.io")) {
@@ -73,14 +73,19 @@ if (!baseUrl) {
   }
 }
 
+if (!baseUrl) {
+  console.log("No valid URL provided. Exiting.");
+  process.exit(1);
+}
+
 let destinationPath: string | undefined = undefined;
 if (shouldDeploy) {
   destinationPath = process.cwd();
 } else {
-  const siteName = baseUrl!.replace("https://", "").split(".webflow.io")[0].replace(/\./g, "-");
+  const siteName = baseUrl.replace("https://", "").split(".webflow.io")[0].replace(/\./g, "-");
   destinationPath = path.join(process.cwd(), siteName);
 }
-console.log(`Deploying to ${destinationPath}`);
+console.log(`Saving to ${destinationPath}`);
 
 await mkdir(destinationPath, { recursive: true });
 
