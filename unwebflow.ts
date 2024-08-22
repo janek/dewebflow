@@ -10,11 +10,11 @@ import {
 // Check if current folder is a github repo
 const isGitRepo = await Bun.file(".git/HEAD").exists();
 if (!isGitRepo) {
-  process.stdout.write(
+  console.log(
 `Git repository not found. The recommended flow is to create a repository and connect it to your deployment.
 Unwebflow will fetch changes from your free Webflow site and push them to your repo.
 
-Press Ctrl+C to exit (and create/move into a repository) or Enter to run without a repository.`
+Press Enter to continue without a repository, or Ctrl+C to exit (and create/move into a repository).`
   );
   await new Promise((resolve) => {
     process.stdin.once("data", () => {
