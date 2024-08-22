@@ -83,7 +83,7 @@ if (!baseUrl) {
 }
 
 let destinationPath: string | undefined = undefined;
-if (shouldDeploy) {
+if (isGitRepo) {
   destinationPath = process.cwd();
 } else {
   const siteName = baseUrl.replace("https://", "").split(".webflow.io")[0].replace(/\./g, "-");
