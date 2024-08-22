@@ -21,7 +21,7 @@ Press Enter to continue without a repository, or Ctrl+C to exit (and create/move
   }
   console.log("Continuing without a repository...");
 } else {
-  console.log("Repository found, continuing...");
+  console.log("Git repository found, continuing...");
 }
 
 let baseUrl: string | undefined = undefined;
@@ -38,9 +38,15 @@ for (const arg of args) {
 }
 
 const printInvalidUrlMessage = (line: string) => {
-  process.stdout.write(
-    `${line} seems like an invalid URL. Please try again. Make sure it uses https://.\n`
-  );
+  if (!line.includes('.')) {
+    process.stdout.write(
+      `Please provide a URL.\n`
+    );
+  } else {
+    process.stdout.write(
+      `${line} seems like an invalid URL. Please try again. Make sure it starts with https:// and ends with .webflow.io\n`
+    );
+  }
 };
 
 if (!baseUrl) {
@@ -56,7 +62,7 @@ if (!baseUrl) {
       } else {
         baseUrl = line.trim();
         const html = await response.text();
-        if (!html.includes(`<meta content="Webflow"`)) {
+        if (!baseUrl.includes("webflow.io")) {
           process.stdout.write(
             `${line} doesn't seem to be a Webflow site, please try another URL:\n`
           );
@@ -83,7 +89,6 @@ if (shouldDeploy) {
   const siteName = baseUrl.replace("https://", "").split(".webflow.io")[0].replace(/\./g, "-");
   destinationPath = path.join(process.cwd(), siteName);
 }
-console.log(`Saving to ${destinationPath}`);
 
 await mkdir(destinationPath, { recursive: true });
 
@@ -98,8 +103,10 @@ const saveSubpage = async (url: string, html: string) => {
 };
 
 if (subpageUrls.length > 0) {
-  console.log(`Saved ${subpageUrls.length} subpages`);
+  console.log(`Found ${subpageUrls.length} subpages`);
 }
+
+console.log(`Saved to ${destinationPath}`);
 
 // TODO: This is tested as proof of concept, but needs extra work to be functional when ran from standalone binary
 // More specifically, documented first and then included in script flow.
