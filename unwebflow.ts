@@ -30,16 +30,12 @@ if (!isGitRepo) {
 }
 
 let baseUrl: string | undefined = undefined;
-let destinationPath: string | undefined = undefined;
+
 let shouldDeploy = false;
 const args = Bun.argv;
 for (const arg of args) {
   if (arg.includes("webflow.io")) {
     baseUrl = arg;
-    const nextArg = args[args.indexOf(arg) + 1];
-    if (nextArg && !nextArg.startsWith("--")) {
-      destinationPath = nextArg;
-    }
   }
   if (arg === "--deploy" || arg === "-d") {
     shouldDeploy = true;
@@ -80,10 +76,14 @@ if (!baseUrl) {
   }
 }
 
-if (!destinationPath) {
+let destinationPath: string | undefined = undefined;
+if (shouldDeploy) {
+  destinationPath = process.cwd();
+} else {
   const siteName = baseUrl!.replace("https://", "").split(".webflow.io")[0].replace(/\./g, "-");
   destinationPath = path.join(process.cwd(), siteName);
 }
+console.log(`Deploying to ${destinationPath}`);
 
 await mkdir(destinationPath, { recursive: true });
 
