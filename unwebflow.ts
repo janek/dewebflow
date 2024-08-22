@@ -10,28 +10,23 @@ import {
 // Check if current folder is a github repo
 const isGitRepo = await Bun.file(".git/HEAD").exists();
 if (!isGitRepo) {
-  process.stdout.write(
+  console.log(
 `Git repository not found. The recommended flow is to create a repository and connect it to your deployment.
 Unwebflow will fetch changes from your free Webflow site and push them to your repo.
 
-Press Ctrl+C to exit (and create/move into a repository) or Enter to run without a repository.`
+Press Enter to continue without a repository, or Ctrl+C to exit (and create/move into a repository).`
   );
-  await new Promise((resolve) => {
-    process.stdin.once("data", (data) => {
-      resolve(data.toString().trim());
-    });
-  });
-} 
-
-if (!isGitRepo) {
+  for await (const _ of console) {
+    break;
+  }
   console.log("Continuing without a repository...");
 } else {
-  console.log("Repository found, continuing...");
+  console.log("Git repository found, continuing...");
 }
 
 let baseUrl: string | undefined = undefined;
-
 let shouldDeploy = false;
+
 const args = Bun.argv;
 for (const arg of args) {
   if (arg.includes("webflow.io")) {
@@ -43,9 +38,15 @@ for (const arg of args) {
 }
 
 const printInvalidUrlMessage = (line: string) => {
-  process.stdout.write(
-    `${line} seems like an invalid URL. Please try again. Make sure it uses https://.\n`
-  );
+  if (!line.includes('.')) {
+    process.stdout.write(
+      `Please provide a URL.\n`
+    );
+  } else {
+    process.stdout.write(
+      `${line} seems like an invalid URL. Please try again. Make sure it starts with https:// and ends with .webflow.io\n`
+    );
+  }
 };
 
 if (!baseUrl) {
@@ -61,7 +62,7 @@ if (!baseUrl) {
       } else {
         baseUrl = line.trim();
         const html = await response.text();
-        if (!html.includes(`<meta content="Webflow"`)) {
+        if (!baseUrl.includes("webflow.io")) {
           process.stdout.write(
             `${line} doesn't seem to be a Webflow site, please try another URL:\n`
           );
@@ -76,14 +77,18 @@ if (!baseUrl) {
   }
 }
 
+if (!baseUrl) {
+  console.log("No valid URL provided. Exiting.");
+  process.exit(1);
+}
+
 let destinationPath: string | undefined = undefined;
-if (shouldDeploy) {
+if (isGitRepo) {
   destinationPath = process.cwd();
 } else {
-  const siteName = baseUrl!.replace("https://", "").split(".webflow.io")[0].replace(/\./g, "-");
+  const siteName = baseUrl.replace("https://", "").split(".webflow.io")[0].replace(/\./g, "-");
   destinationPath = path.join(process.cwd(), siteName);
 }
-console.log(`Deploying to ${destinationPath}`);
 
 await mkdir(destinationPath, { recursive: true });
 
@@ -98,8 +103,10 @@ const saveSubpage = async (url: string, html: string) => {
 };
 
 if (subpageUrls.length > 0) {
-  console.log(`Saved ${subpageUrls.length} subpages`);
+  console.log(`Found ${subpageUrls.length} subpages`);
 }
+
+console.log(`Saved to ${destinationPath}`);
 
 // TODO: This is tested as proof of concept, but needs extra work to be functional when ran from standalone binary
 // More specifically, documented first and then included in script flow.
