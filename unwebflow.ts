@@ -1,4 +1,3 @@
-import { $ } from "bun";
 import { mkdir } from "node:fs/promises";
 import * as prettier from "prettier";
 import * as path from "path";
@@ -12,9 +11,22 @@ import {
 const isGitRepo = await Bun.file(".git/HEAD").exists();
 if (!isGitRepo) {
   process.stdout.write(
-    "Git repository not found. The recommended flow is to create a repository connected to your deployment. Unwebflow will pull changes from your free Webflow site and push them to your repo. Press or Ctrl+C to exit (and create/move into a repository) or press anything else to run without a repository." +
-      "\n"
+`Git repository not found. The recommended flow is to create a repository and connect it to your deployment.
+Unwebflow will fetch changes from your free Webflow site and push them to your repo.
+
+Press Ctrl+C to exit (and create/move into a repository) or Enter to run without a repository.`
   );
+  await new Promise((resolve) => {
+    process.stdin.once("data", (data) => {
+      resolve(data.toString().trim());
+    });
+  });
+} 
+
+if (!isGitRepo) {
+  console.log("Continuing without a repository...");
+} else {
+  console.log("Repository found, continuing...");
 }
 
 let baseUrl: string | undefined = undefined;
@@ -73,11 +85,9 @@ if (!destinationPath) {
   destinationPath = path.join(process.cwd(), siteName);
 }
 
-
 await mkdir(destinationPath, { recursive: true });
 
 const subpageUrls: string[] = await getAllSubpages(baseUrl);
-console.log(`Found ${subpageUrls.length} subpages`);
 
 const saveSubpage = async (url: string, html: string) => {
   const prettierHtml = await prettier.format(html, { parser: "html" });
@@ -86,6 +96,10 @@ const saveSubpage = async (url: string, html: string) => {
   const filePath = path.join(destinationPath!, fileName);
   await Bun.write(filePath, prettierHtml);
 };
+
+if (subpageUrls.length > 0) {
+  console.log(`Saved ${subpageUrls.length} subpages`);
+}
 
 // TODO: This is tested as proof of concept, but needs extra work to be functional when ran from standalone binary
 // More specifically, documented first and then included in script flow.
@@ -121,5 +135,5 @@ if (shouldDeploy) {
   const res = await Bun.spawn(["/bin/sh", "-c", command]);
   console.log("Done! Check your deployment to see the changes.");
 } else {
-  console.log(`Changes saved in ${destinationPath}. Use --deploy or -d flag to automatically commit and push to GitHub.`);
+  console.log(`Latest version saved in ${destinationPath}.\nUse --deploy or -d flag to automatically commit and push to GitHub.`);
 }
