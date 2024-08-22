@@ -16,7 +16,9 @@ Unwebflow will fetch changes from your free Webflow site and push them to your r
 
 Press Enter to continue without a repository, or Ctrl+C to exit (and create/move into a repository).`
   );
-  await Bun.prompt("");
+  for await (const _ of console) {
+    break;
+  }
   console.log("Continuing without a repository...");
 } else {
   console.log("Repository found, continuing...");
