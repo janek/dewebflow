@@ -17,13 +17,10 @@ Unwebflow will fetch changes from your free Webflow site and push them to your r
 Press Ctrl+C to exit (and create/move into a repository) or Enter to run without a repository.`
   );
   await new Promise((resolve) => {
-    process.stdin.once("data", (data) => {
-      resolve(data.toString().trim());
+    process.stdin.once("data", () => {
+      resolve(undefined);
     });
   });
-} 
-
-if (!isGitRepo) {
   console.log("Continuing without a repository...");
 } else {
   console.log("Repository found, continuing...");
